@@ -1,0 +1,110 @@
+:root {
+  --color-frame-bg    : rgba(175, 223, 228);
+  --color-frame-border: rgba(35, 91, 200);
+
+  --color-screen-bg    : rgba(35, 91, 200, 0.1);
+  --color-screen-border: var(--color-frame-border);
+}
+
+.recommended-menu {
+  visibility: visible;
+  display   : flex;
+  position  : fixed;
+  flex-direction: column;
+  top   : 20%;
+  left  : 50%;
+  overflow  : hidden;
+  box-sizing: content-box;
+  width : 160px;
+  height: 320px;
+  border: solid 1px var(--color-frame-border);
+  border-radius : 8px;
+  font-size : 0.8rem;
+  opacity   : 1;
+  transition: visibility 0.2s, height 0.2s linear, opacity 0.2s linear;
+}
+.recommended-menu.is-small {
+  height: 32px;
+}
+.recommended-menu.is-hide {
+  visibility: visible;
+  opacity   : 0;
+  pointer-events: none;
+}
+.recommended-menu .header {
+  display : flex;
+  width   : 100%;
+  height  : 32px;
+  background-color: var(--color-frame-bg);
+  cursor  : move;
+}
+.recommended-menu .header__title {
+  display : flex;
+  align-items: center;
+  flex    : 1;
+  height  : 100%;
+
+  border: solid 1px orange;
+}
+.recommended-menu .header__btn {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  height  : 100%;
+  border  : solid 1px orange;
+  cursor: pointer;
+}
+.recommended-menu.is-hide .header__btn[data-btn="close"] {
+  cursor: default;
+}
+.recommended-menu .header__btn span {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.recommended-menu .header__btn[data-btn="scale"] span {
+  width: 50%;
+  height: 0;
+  border: solid 1px red;
+}
+.recommended-menu .header__btn[data-btn="close"] span {
+  width: 50%;
+  height: 50%;
+}
+.recommended-menu .header__btn[data-btn="close"] span::before,
+.recommended-menu .header__btn[data-btn="close"] span::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  border-top: solid 2px red;
+  transform : translate(-50%, -50%) rotate(45deg);
+  content   : "";
+}
+.recommended-menu .header__btn[data-btn="close"] span::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+.recommended-menu .screen {
+  position: relative;
+  flex    : 1;
+  width   : 100%;
+  /* padding: 4px; */
+}
+.recommended-menu .screen__frame {
+  z-index : 1;
+  position: absolute;
+  top     : 0;
+  left    : 0;
+  width   : 100%;
+  height  : 100%;
+  background-color: var(--color-frame-bg);
+  clip-path: url(#recommended-menu-frame-clip);
+}
+.recommended-menu .screen__test {
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  /* border: solid 1px var(--color-screen-border); */
+  background-color: var(--color-screen-bg);
+}
