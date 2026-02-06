@@ -1,5 +1,5 @@
 <div class="recommended-menu js-recommended-menu">
-  <svg width="0" height="0">
+  <svg width="0" height="0" style="position: absolute">
     <clipPath id="recommended-menu-frame-clip">
       <path class="js-path" d=""></path>
     </clipPath>
@@ -7,14 +7,43 @@
   <div class="header js-drag">
     <p class="header__title">おすすめ</p>
     <div class="header__btn js-header__btn" data-btn="scale">
-      <span></span>
+      <div class="btn__content">
+        <span></span>
+      </div>
     </div>
     <div class="header__btn js-header__btn" data-btn="close">
-      <span></span>
+      <div class="btn__content">
+        <span></span>
+        <span></span>
+      </div>
     </div>
   </div>
   <div class="screen js-screen">
-    <div class="screen__frame"></div>
-    <div class="screen__test"></div>
+    <div class="screen__main">
+      <div class="main__view-area">
+        <ul class="view-area__pickup-list">
+          <li class="pickup-list__item js-pickup-list__item">
+            <div class="item__content">
+              <p class="content__title">タイトル</p>
+              <div class="flexbox">
+                <p class="content__genre" data-genre="">ずとまよ</p>
+                <p class="content__count" data-count="">1163</p>
+              </div>
+            </div>
+            <p class="item__open-page">開く</p>
+          </li>
+          <li class="pickup-list__item js-pickup-list__item">
+            <div class="item__content">
+              <p class="content__title">タイトル</p>
+              <div class="flexbox">
+                <p class="content__genre" data-genre="">ずとまよ</p>
+                <p class="content__count" data-count="">1163</p>
+              </div>
+            </div>
+            <p class="item__open-page">開く</p>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>

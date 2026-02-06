@@ -1,36 +1,3 @@
-
-
-// ----------------------------------------------
-// screen__frame の clip-path で参照する svg 値の設定
-// ----------------------------------------------
-function recommendedMenu_setClipSVG() {
-  const $screen      = $(".recommended-menu .js-screen");
-  const screenWidth  = $screen.width();
-  const screenHeight = $screen.height();
-  
-  // 内周の border-radisu (半径)
-  const insideRadius = 3;
-
-  // 外周 (反時計回り) と 内周 (時計回り) を逆方向にすることで、このﾊﾟｽは穴開き扱いになる 
-  $(".recommended-menu .js-path").attr(
-    "d",
-    `M0,0 
-     L0,${screenHeight} 
-     L${screenWidth},${screenHeight} 
-     L${screenWidth},0 
-     Z
-
-     M4,4
-     L${screenWidth - 4},4 
-     L${screenWidth - 4},${screenHeight - 4 - insideRadius}
-     A${insideRadius} ${insideRadius} 0 0 1 ${screenWidth - 4 - insideRadius},${screenHeight - 4}
-     L${4 + insideRadius},${screenHeight - 4}
-     A${insideRadius} ${insideRadius} 0 0 1 4,${screenHeight - 4 -insideRadius} 
-     Z`
-  );
-}
-
-
 // ----------------------------------------------
 // js-drag 上のﾄﾞﾗｯｸﾞで js-recommended-menu を動かす 
 // ----------------------------------------------
@@ -40,23 +7,20 @@ function recommendedMenu_drag() {
     const diffX = eDown.clientX - $menu.position().left;
     const diffY = eDown.clientY - $menu.position().top;
 
-    eDown.target.setPointerCapture(eDown.pointerId);
+    $(window)
+      .on("pointermove.drag", function(eMove) {
+        const moveX = eMove.clientX - diffX;
+        const moveY = eMove.clientY - diffY;
 
-    $(window).on("pointermove.drag", function(eMove) {
-      const moveX = eMove.clientX - diffX;
-      const moveY = eMove.clientY - diffY;
+        $menu.css({
+          "top" : moveY + "px",
+          "left": moveX + "px",
+        });
+      })
 
-      $menu.css({
-        "top" : moveY + "px",
-        "left": moveX + "px",
+      .on("pointerup.drag", function() {
+        $(window).off(".drag");
       });
-    });
-
-    $(window).on("pointerup.drag", function() {
-      eDown.target.releasePointerCapture(eDown.pointerId);
-
-      $(window).off(".drag");
-    });
   });
 }
 
@@ -69,11 +33,12 @@ function recommendedMenu_btnAction() {
     const btnType = $(this).data("btn");
     const eDownX  = eDown.clientX;
     const eDownY  = eDown.clientY;
-
+    
     $(window).on("pointerup.up", function(eUp) {
       if ((eUp.clientX == eDownX) && (eUp.clientY == eDownY)) {
         if (btnType == "scale") {
           $(".js-recommended-menu").toggleClass("is-small");
+          $(".js-header__btn[data-btn='scale']").toggleClass("is-square");
         }
         else if (btnType == "close") {
           $(".js-recommended-menu").addClass("is-hide");
@@ -84,3 +49,42 @@ function recommendedMenu_btnAction() {
     });    
   });
 }
+
+
+// ----------------------------------------------
+// 
+// ----------------------------------------------
+function recommendedMenu_standbyItem() {
+  let isStand = false;
+  
+  $(".recommended-menu")
+    .on("pointerenter", ".js-pickup-list__item", function() {
+      if (g_userDevice == "pc") $(this).addClass("is-stand");
+
+      console.log("bbb");
+    })
+
+    .on("pointerleave", ".js-pickup-list__item", function() {
+      if (g_userDevice == "pc") $(this).removeClass("is-stand");
+    });
+
+
+  
+
+  // $(".recommended-menu").on("click", ".js-pickup-list__item", function() {
+  //   if ($(this).hasClass("is-stand") == false) {
+  //     $(".js-pickup-list__item").removeClass("is-stand");
+  //     $(this).addClass("is-stand");
+  //   }
+  //   else {
+  //     console.log("aa");
+  //   }
+
+  // // pc版はいい感じだけど、スマホ版で、stand判定ではないのに検知してしまう   
+
+
+  // });
+}
+
+// ★ ｲﾍﾞﾝﾄの中にｲﾍﾞﾝﾄを登録 + off() で解除する場合と、
+//    ｲﾍﾞﾝﾄの中にｲﾍﾞﾝﾄを登録してはいけない (直近の 61行目 と 65行目) 場合の区別が知りたい

@@ -1,110 +1,243 @@
+@charset "UTF-8";
 :root {
-  --color-frame-bg    : rgba(175, 223, 228);
-  --color-frame-border: rgba(35, 91, 200);
-
-  --color-screen-bg    : rgba(35, 91, 200, 0.1);
-  --color-screen-border: var(--color-frame-border);
+  --size-frame-border-width: 4px;
+  --size-frame-border-radius-inside: 4px;
 }
 
 .recommended-menu {
   visibility: visible;
-  display   : flex;
-  position  : fixed;
-  flex-direction: column;
-  top   : 20%;
-  left  : 50%;
-  overflow  : hidden;
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  overflow: hidden;
   box-sizing: content-box;
-  width : 160px;
-  height: 320px;
-  border: solid 1px var(--color-frame-border);
-  border-radius : 8px;
-  font-size : 0.8rem;
-  opacity   : 1;
-  transition: visibility 0.2s, height 0.2s linear, opacity 0.2s linear;
+  width: 200px;
+  height: 400px;
+  border: solid 2px rgb(35, 91, 200);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  opacity: 1;
+  /* ↓ ﾃﾞﾊﾞｲｽ端末時、自要素上でのｽｸﾛｰﾙとﾋﾟﾝﾁｽﾞｰﾑを無効化 (ﾄﾞﾗｯｸﾞ移動を優先させる) */
+  touch-action: none;
+  transition: visibility 0.2s, height 0.2s ease, opacity 0.2s ease;
 }
 .recommended-menu.is-small {
-  height: 32px;
+  height: 40px;
 }
 .recommended-menu.is-hide {
   visibility: visible;
-  opacity   : 0;
+  opacity: 0;
   pointer-events: none;
 }
-.recommended-menu .header {
-  display : flex;
-  width   : 100%;
-  height  : 32px;
-  background-color: var(--color-frame-bg);
-  cursor  : move;
-}
-.recommended-menu .header__title {
-  display : flex;
-  align-items: center;
-  flex    : 1;
-  height  : 100%;
-
-  border: solid 1px orange;
-}
-.recommended-menu .header__btn {
-  position: relative;
-  aspect-ratio: 1 / 1;
-  height  : 100%;
-  border  : solid 1px orange;
-  cursor: pointer;
-}
-.recommended-menu.is-hide .header__btn[data-btn="close"] {
+.recommended-menu.is-hide .header__btn[data-btn=close] {
   cursor: default;
 }
-.recommended-menu .header__btn span {
+
+.recommended-menu .header {
+  display: flex;
+  width: 100%;
+  height: 40px;
+  background-color: #65BBE9;
+  cursor: move;
+}
+.recommended-menu .header .header__title {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  height: 100%;
+  padding-left: 4px;
+  color: #F0F0F0;
+  font-weight: bold;
+}
+.recommended-menu .header .header__btn {
+  aspect-ratio: 1/1;
+  height: 100%;
+  padding: 4px;
+  cursor: pointer;
+}
+.recommended-menu .header .header__btn .btn__content {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background-color: #EF454A;
+  border: solid 2px #F0F0F0;
+  border-radius: 2px;
+  transition: border-color 0.1s linear 0s;
+}
+.recommended-menu .header .header__btn .btn__content::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background-color: #F0F0F0;
+  transform: translate(-50%, -50%) rotate(0);
+  content: "";
+  transition: width 0.2s ease, height 0.2s ease, transform 0.2s ease;
+}
+.recommended-menu .header .header__btn .btn__content span {
   display: block;
   position: absolute;
   top: 50%;
   left: 50%;
+  width: 70%;
+  height: 2px;
+  border-radius: 2px;
+  background-color: #F0F0F0;
   transform: translate(-50%, -50%);
+  transition: background-color 0.2s ease;
 }
-.recommended-menu .header__btn[data-btn="scale"] span {
-  width: 50%;
-  height: 0;
-  border: solid 1px red;
+@media (hover: hover) and (pointer: fine) {
+  .recommended-menu .header .header__btn:hover .btn__content {
+    border-color: #EF454A;
+    transition: border-color 0.1s linear 0.2s;
+  }
+  .recommended-menu .header .header__btn:hover .btn__content::before {
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+  .recommended-menu .header .header__btn:hover .btn__content span {
+    background-color: #EF454A;
+  }
 }
-.recommended-menu .header__btn[data-btn="close"] span {
-  width: 50%;
-  height: 50%;
+.recommended-menu .header .header__btn[data-btn=scale] .btn__content span {
+  transition: height 0.2s ease;
 }
-.recommended-menu .header__btn[data-btn="close"] span::before,
-.recommended-menu .header__btn[data-btn="close"] span::after {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  border-top: solid 2px red;
-  transform : translate(-50%, -50%) rotate(45deg);
-  content   : "";
+.recommended-menu .header .header__btn[data-btn=scale].is-square .btn__content span {
+  height: 70%;
+  background-color: transparent;
+  border: solid 2px #F0F0F0;
+  border-radius: 1px;
 }
-.recommended-menu .header__btn[data-btn="close"] span::after {
+@media (hover: hover) and (pointer: fine) {
+  .recommended-menu .header .header__btn[data-btn=scale].is-square:hover .btn__content span {
+    background-color: transparent;
+    border: solid 2px #EF454A;
+  }
+}
+.recommended-menu .header .header__btn[data-btn=close] .btn__content span {
+  width: 80%;
+}
+.recommended-menu .header .header__btn[data-btn=close] .btn__content span:first-child {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.recommended-menu .header .header__btn[data-btn=close] .btn__content span:last-child {
   transform: translate(-50%, -50%) rotate(-45deg);
 }
+
 .recommended-menu .screen {
   position: relative;
-  flex    : 1;
-  width   : 100%;
-  /* padding: 4px; */
+  width: 100%;
+  height: 360px;
+  border-style: solid;
+  border-width: 0 4px 4px 4px;
+  border-color: #65BBE9;
+  background-color: rgba(35, 91, 200, 0.1);
 }
-.recommended-menu .screen__frame {
-  z-index : 1;
-  position: absolute;
-  top     : 0;
-  left    : 0;
-  width   : 100%;
-  height  : 100%;
-  background-color: var(--color-frame-bg);
-  clip-path: url(#recommended-menu-frame-clip);
-}
-.recommended-menu .screen__test {
+.recommended-menu .screen::before, .recommended-menu .screen::after {
   z-index: 0;
+  position: absolute;
+  bottom: 0;
+  border-style: solid;
+  border-width: 2px;
+  content: "";
+}
+.recommended-menu .screen::before {
+  left: 0;
+  border-color: transparent transparent #65BBE9 #65BBE9;
+}
+.recommended-menu .screen::after {
+  right: 0;
+  border-color: transparent #65BBE9 #65BBE9 transparent;
+}
+.recommended-menu .screen .screen__main {
+  z-index: 1;
+  position: relative;
   width: 100%;
   height: 100%;
-  /* border: solid 1px var(--color-screen-border); */
-  background-color: var(--color-screen-bg);
+  padding: 8px;
+  border: solid 2px rgb(35, 91, 200);
+  border-radius: 0 0 4px 4px;
 }
+.recommended-menu .screen .screen__main .main__view-area {
+  overflow-y: scroll;
+  width: 100%;
+  height: 100%;
+}
+.recommended-menu .screen .screen__main .main__view-area::-webkit-scrollbar {
+  display: none;
+}
+
+.recommended-menu .view-area__pickup-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  height: 400px;
+  padding: 1px;
+}
+.recommended-menu .view-area__pickup-list .pickup-list__item {
+  display: flex;
+  cursor: pointer;
+}
+.recommended-menu .view-area__pickup-list .pickup-list__item .item__content {
+  flex-shrink: 0;
+  border-radius: 8px;
+  background-color: rgba(240, 240, 240, 0.9);
+  backdrop-filter: blur(8px);
+  order: 2;
+  width: 100%;
+  padding: 4px 8px;
+}
+.recommended-menu .view-area__pickup-list .pickup-list__item .item__content .content__title {
+  margin-bottom: 4px;
+}
+.recommended-menu .view-area__pickup-list .pickup-list__item .item__content .flexbox {
+  display: flex;
+  gap: 4px;
+}
+.recommended-menu .view-area__pickup-list .pickup-list__item .item__content .flexbox .content__genre {
+  display: inline-block;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  color: #F0F0F0;
+  background-color: rgb(35, 91, 200);
+}
+.recommended-menu .view-area__pickup-list .pickup-list__item .item__content .flexbox .content__count {
+  display: inline-block;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  color: #F0F0F0;
+  background-color: rgb(35, 91, 200);
+}
+.recommended-menu .view-area__pickup-list .pickup-list__item .item__content .flexbox .content__count::after {
+  margin-left: 0.1em;
+  content: "打";
+}
+.recommended-menu .view-area__pickup-list .pickup-list__item .item__open-page {
+  flex-shrink: 0;
+  border-radius: 8px;
+  background-color: rgba(240, 240, 240, 0.9);
+  backdrop-filter: blur(8px);
+  order: 1;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 0;
+  margin-right: 0;
+  white-space: nowrap;
+  opacity: 0;
+  transition: width 0.2s ease, margin-right 0s, opacity 0.2s ease;
+}
+.recommended-menu .view-area__pickup-list .pickup-list__item.is-stand .item__open-page {
+  width: 25%;
+  margin-right: 4px;
+  opacity: 1;
+}
+
+/*# sourceMappingURL=recommended-menu.css.map */

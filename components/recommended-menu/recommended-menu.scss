@@ -1,0 +1,265 @@
+$color-header-text : #F0F0F0; 
+
+$color-frame-bg    : #65BBE9; // 天色
+$color-frame-border: rgba(35, 91, 200);
+
+$color-screen-bg      : rgba(35, 91, 200, 0.1);
+$color-screen-frame-bg: #65BBE9;
+
+$color-btn-base   : #EF454A;  // 朱色
+$color-btn-border : $color-header-text;
+
+$size-frame-border-width: 4px;
+$size-frame-border-radius-outside: 8px;
+$size-frame-border-radius-inside : 4px;
+$size-frame-width   : 200px;
+$size-frame-height  : 400px;
+
+$size-header-height : 40px;
+
+$size-btn-border-width  : 2px;
+$size-btn-border-radius : 2px;
+$size-btn-line-width    : 2px;
+
+$border-frame-outline: solid 2px rgba(35, 91, 200);
+
+// js からの参照用
+:root {
+  --size-frame-border-width        : #{$size-frame-border-width};
+  --size-frame-border-radius-inside: #{$size-frame-border-radius-inside};
+}
+
+.recommended-menu {
+  visibility: visible;
+  position  : fixed;
+  top   : 20%;
+  left  : 50%;
+  overflow  : hidden;
+  box-sizing: content-box;
+  width : $size-frame-width;
+  height: $size-frame-height;
+  border: $border-frame-outline;
+  border-radius : $size-frame-border-radius-outside;
+  font-size     : 0.8rem;
+  opacity       : 1;
+  /* ↓ ﾃﾞﾊﾞｲｽ端末時、自要素上でのｽｸﾛｰﾙとﾋﾟﾝﾁｽﾞｰﾑを無効化 (ﾄﾞﾗｯｸﾞ移動を優先させる) */
+  touch-action: none;
+  transition  : visibility 0.2s, height 0.2s ease, opacity 0.2s ease;
+  &.is-small {
+    height: $size-header-height;
+  }
+  &.is-hide {
+    visibility: visible;
+    opacity   : 0;
+    pointer-events: none;
+    .header__btn[data-btn="close"] {
+      cursor: default;
+    }
+  }
+}
+.recommended-menu .header {
+  display : flex;
+  width   : 100%;
+  height  : $size-header-height;
+  background-color: $color-frame-bg;
+  cursor  : move;
+  .header__title {
+    display : flex;
+    align-items: center;
+    flex    : 1;
+    height  : 100%;
+    padding-left: 4px;
+    color: $color-header-text;
+    font-weight : bold;
+  }
+  .header__btn {
+    aspect-ratio: 1 / 1;
+    height  : 100%;
+    padding : 4px;
+    cursor  : pointer;
+    .btn__content {
+      position: relative;
+      overflow: hidden;
+      width   : 100%;
+      height  : 100%;
+      background-color: $color-btn-base;
+      border  : solid $size-btn-border-width $color-btn-border;
+      border-radius   : $size-btn-border-radius;
+      transition: border-color 0.1s linear 0s;
+      &::before {
+        position: absolute;
+        top     : 50%;
+        left    : 50%;
+        width   : 0;
+        height  : 0;
+        background-color: $color-btn-border;
+        transform : translate(-50%, -50%) rotate(0);
+        content : "";
+        transition: width 0.2s ease, height 0.2s ease, transform 0.2s ease;
+      }
+      span {
+        display   : block;
+        position  : absolute;
+        top       : 50%;
+        left      : 50%;
+        width     : 70%;
+        height    : $size-btn-line-width; 
+        border-radius   : $size-btn-border-radius;
+        background-color: $color-btn-border;
+        transform : translate(-50%, -50%);
+        transition: background-color 0.2s ease;
+      }
+    }
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        .btn__content {
+          border-color: $color-btn-base;
+          transition  : border-color 0.1s linear 0.2s;
+        }
+        .btn__content::before {
+          width : 100%;
+          height: 100%;
+          transform: translate(-50%, -50%) rotate(90deg);
+        }
+        .btn__content span {
+          background-color: $color-btn-base;
+        }
+      }
+    }
+    &[data-btn="scale"] {
+      .btn__content span {
+        transition: height 0.2s ease;
+      }
+      &.is-square .btn__content span {
+        height: 70%;
+        background-color: transparent;
+        border: solid $size-btn-line-width $color-btn-border;
+        border-radius   : calc($size-btn-border-radius / 2);
+      }
+      @media (hover: hover) and (pointer: fine) {
+        &.is-square:hover .btn__content span {
+          background-color: transparent;
+          border: solid $size-btn-line-width $color-btn-base;
+        }
+      }
+    }
+    &[data-btn="close"] .btn__content span {
+      width: 80%;
+      &:first-child {
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+      &:last-child {
+        transform: translate(-50%, -50%) rotate(-45deg);
+      }
+    }
+  }
+}
+.recommended-menu .screen {
+  position: relative;
+  width   : 100%;
+  height  : $size-frame-height - $size-header-height;
+  border-style: solid;
+  border-width: 0 $size-frame-border-width $size-frame-border-width $size-frame-border-width;
+  border-color: $color-screen-frame-bg;
+  background-color: $color-screen-bg;
+  &::before, &::after {
+    z-index : 0;
+    position: absolute;
+    bottom  : 0;
+    border-style: solid;
+    border-width: calc($size-frame-border-width / 2);
+    content : "";
+  }
+  &::before {
+    left: 0;
+    border-color: transparent transparent $color-frame-bg $color-frame-bg;
+  }
+  &::after {
+    right: 0;
+    border-color: transparent $color-frame-bg $color-frame-bg transparent;
+  }
+  .screen__main {
+    z-index : 1;
+    position: relative;
+    width   : 100%;
+    height  : 100%;
+    padding : 8px;
+    border  : $border-frame-outline;
+    border-radius: 0 0 $size-frame-border-radius-inside $size-frame-border-radius-inside;
+    .main__view-area {
+      overflow-y: scroll;
+      width : 100%;
+      height: 100%;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+}
+@mixin item-bg {
+  flex-shrink   : 0;
+  border-radius : 8px;
+  background-color: rgba(240, 240, 240, 0.9);
+  backdrop-filter : blur(8px);
+}
+@mixin item-info-tag {
+  display : inline-block;
+  padding : 2px 4px;
+  border-radius : 4px;
+  font-size     : 0.8em;
+  color   : #F0F0F0;
+  background-color: rgba(35, 91, 200);
+}
+.recommended-menu .view-area__pickup-list {
+  display : flex;
+  flex-direction: column;
+  gap     : 8px;
+  width   : 100%;
+  height  : 400px;
+  padding : 1px;
+  .pickup-list__item {
+    display : flex;
+    cursor  : pointer;
+    .item__content {
+      @include item-bg;
+      order   : 2;
+      width   : 100%;
+      padding : 4px 8px;
+      .content__title {
+        margin-bottom: 4px;
+      }
+      .flexbox {
+        display : flex;
+        gap     : 4px;
+        .content__genre {
+          @include item-info-tag;
+        }
+        .content__count {
+          @include item-info-tag;
+          &::after {
+            margin-left: 0.1em;
+            content: "打";
+          }
+        }
+      }
+    }
+    .item__open-page {
+      @include item-bg;
+      order   : 1;
+      overflow: hidden;
+      display : flex;
+      justify-content : center;
+      align-items     : center;
+      width   : 0;
+      margin-right: 0;
+      white-space : nowrap;
+      opacity : 0;
+      transition: width 0.2s ease, margin-right 0s, opacity 0.2s ease;
+    }
+    &.is-stand .item__open-page {
+      width   : 25%;
+      margin-right: 4px;
+      opacity : 1;
+    }
+  }
+}
