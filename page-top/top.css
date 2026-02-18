@@ -8,4 +8,95 @@ main {
   background: linear-gradient(to bottom, #AFDFE4, #C77EB5);
 }
 
+.modal-screen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  max-width: 1024px;
+  width: 100%;
+  height: 90%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(52, 52, 52, 0.9);
+  transition: width 0.1s linear;
+}
+@media screen and (min-width: 800px) {
+  .modal-screen {
+    width: 90%;
+  }
+}
+.modal-screen .modal-screen__typing-contents {
+  width: 100%;
+  height: 50%;
+  border: solid 1px blue;
+}
+.modal-screen .modal-screen__keyboard {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 50%;
+  font-size: clamp(8px, 8px + (100vw - 375px) * 0.0266666667, 14px);
+  border: solid 1px red;
+  justify-content: space-between;
+  align-content: space-between;
+}
+.modal-screen .modal-screen__keyboard .keyboard__key {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: calc(6.6666666667% - 2px);
+  height: calc(20% - 2px);
+  padding: 4px;
+  border: solid 1px white;
+}
+.modal-screen .modal-screen__keyboard .keyboard__key.unique {
+  font-size: 0.8em;
+}
+.modal-screen .modal-screen__keyboard .keyboard__key[data-key=kaku] {
+  justify-content: start;
+}
+.modal-screen .modal-screen__keyboard .keyboard__key[data-key=kaku] p {
+  position: relative;
+}
+.modal-screen .modal-screen__keyboard .keyboard__key[data-key=kaku] p::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  border-top: solid 1px red;
+  transform: translateY(-50%);
+  content: "";
+}
+.modal-screen .modal-screen__keyboard .keyboard__key[data-key=BackSpace] {
+  justify-content: end;
+  text-align: left;
+}
+.modal-screen .modal-screen__keyboard .keyboard__key[data-key=Tab] {
+  justify-content: start;
+  width: calc((6.6666666667% - 2px) * 1.5);
+}
+.modal-screen .modal-screen__keyboard .keyboard__key[data-key=CapsLock] {
+  justify-content: start;
+  text-align: left;
+  width: calc((6.6666666667% - 2px) * 1.75);
+}
+.modal-screen .modal-screen__keyboard .keyboard__key[data-key=Shift].left {
+  justify-content: start;
+  width: calc((6.6666666667% - 2px) * 2.25);
+}
+.modal-screen .modal-screen__keyboard .keyboard__key[data-key=Shift].right {
+  justify-content: end;
+  width: calc((6.6666666667% - 2px) * 1.75);
+}
+.modal-screen .modal-screen__keyboard .keyboard__key[data-key=Enter].top {
+  width: calc((6.6666666667% - 2px) * 1.5);
+}
+.modal-screen .modal-screen__keyboard .keyboard__key[data-key=Enter].bottom {
+  width: calc((6.6666666667% - 2px) * 1.25);
+}
+.modal-screen .modal-screen__keyboard .keyboard__key[data-key=Space] {
+  width: calc((6.6666666667% - 2px) * 6);
+  margin: 0 auto;
+}
+
 /*# sourceMappingURL=top.css.map */

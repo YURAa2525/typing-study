@@ -52,16 +52,12 @@ function recommendedMenu_btnAction() {
 
 
 // ----------------------------------------------
-// 
+// js-pickup-list__item に is-stand 状態を付与 / 既に is-stand 状態であればﾍﾟｰｼﾞ移動
 // ----------------------------------------------
 function recommendedMenu_standbyItem() {
-  let isStand = false;
-  
   $(".recommended-menu")
     .on("pointerenter", ".js-pickup-list__item", function() {
       if (g_userDevice == "pc") $(this).addClass("is-stand");
-
-      console.log("bbb");
     })
 
     .on("pointerleave", ".js-pickup-list__item", function() {
@@ -69,22 +65,20 @@ function recommendedMenu_standbyItem() {
     });
 
 
-  
-
-  // $(".recommended-menu").on("click", ".js-pickup-list__item", function() {
-  //   if ($(this).hasClass("is-stand") == false) {
-  //     $(".js-pickup-list__item").removeClass("is-stand");
-  //     $(this).addClass("is-stand");
-  //   }
-  //   else {
-  //     console.log("aa");
-  //   }
-
-  // // pc版はいい感じだけど、スマホ版で、stand判定ではないのに検知してしまう   
-
-
-  // });
+  $(document).on("click", function(eClick) {
+    if ($(eClick.target).closest(".js-pickup-list__item").length) {
+      const $el = $(eClick.target).closest(".js-pickup-list__item");
+      
+      if ($el.hasClass("is-stand") == false) {
+        $(".js-pickup-list__item").removeClass("is-stand");
+        $el.addClass("is-stand");
+      }
+      else {
+        console.log("ﾍﾟｰｼﾞ移動");
+      }
+    }
+    else {
+      $(".js-pickup-list__item").removeClass("is-stand");
+    }
+  });
 }
-
-// ★ ｲﾍﾞﾝﾄの中にｲﾍﾞﾝﾄを登録 + off() で解除する場合と、
-//    ｲﾍﾞﾝﾄの中にｲﾍﾞﾝﾄを登録してはいけない (直近の 61行目 と 65行目) 場合の区別が知りたい

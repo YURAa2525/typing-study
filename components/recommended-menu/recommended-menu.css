@@ -1,9 +1,4 @@
 @charset "UTF-8";
-:root {
-  --size-frame-border-width: 4px;
-  --size-frame-border-radius-inside: 4px;
-}
-
 .recommended-menu {
   visibility: visible;
   position: fixed;

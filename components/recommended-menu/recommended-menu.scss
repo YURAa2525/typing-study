@@ -23,12 +23,6 @@ $size-btn-line-width    : 2px;
 
 $border-frame-outline: solid 2px rgba(35, 91, 200);
 
-// js からの参照用
-:root {
-  --size-frame-border-width        : #{$size-frame-border-width};
-  --size-frame-border-radius-inside: #{$size-frame-border-radius-inside};
-}
-
 .recommended-menu {
   visibility: visible;
   position  : fixed;

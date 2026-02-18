@@ -2,8 +2,102 @@ html {
   font-size: 16px;
 }
 main {
-  width: 100%;
+  width : 100%;
   height: 100dvh;
-  background: linear-gradient(to bottom, #AFDFE4, #C77EB5);
-  
+  background: linear-gradient(to bottom, #AFDFE4, #C77EB5);  
 }
+
+.modal-screen {
+  position: fixed;
+  top     : 50%;
+  left    : 50%;
+  max-width: 1024px;
+  width   : 100%;
+  height  : 90%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(52, 52, 52, 0.9);
+  transition: width 0.1s linear;
+  @media screen and (min-width: 800px) {
+    width: 90%;
+  }
+  .modal-screen__typing-contents {
+    width : 100%;
+    height: 50%;
+    border: solid 1px blue;
+  }
+  .modal-screen__keyboard {
+    display   : flex;
+    flex-wrap : wrap;
+    width     : 100%;
+    height    : 50%;
+    font-size: clamp(8px, calc(8px + (100vw - 375px) * (6 / 225)), 14px);
+    border    : solid 1px red;
+
+    // gap: 2px;
+    justify-content: space-between;
+    align-content: space-between;
+    .keyboard__key {
+      $key-gap        : 2px;
+      $key-basic-width: calc(100% / 15 - $key-gap);
+      $key-padding    : $key-gap * 2;
+      display: flex;
+      justify-content : center;
+      align-items     : center;
+      text-align: center;
+      width : $key-basic-width;
+      height: calc(100% / 5 - $key-gap);
+      padding: $key-padding;
+      border: solid 1px white;
+      &.unique {
+        font-size: 0.8em;
+      }
+      &[data-key="kaku"] {
+        justify-content: start;
+        p {
+          position: relative;
+          &::before {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            border-top: solid 1px red;
+            transform: translateY(-50%);
+            content: "";
+          }
+        }
+      }
+      &[data-key="BackSpace"] {
+        justify-content: end;
+        text-align: left;
+      }
+      &[data-key="Tab"] {
+        justify-content: start;
+        width: calc($key-basic-width * 1.5);
+      }
+      &[data-key="CapsLock"] {
+        justify-content: start;
+        text-align: left;
+        width: calc($key-basic-width * 1.75);
+      }
+      &[data-key="Shift"].left {
+        justify-content: start;
+        width: calc($key-basic-width * 2.25);
+      }
+      &[data-key="Shift"].right {
+        justify-content: end;
+        width: calc($key-basic-width * 1.75);
+      }
+      &[data-key="Enter"].top {
+        width: calc($key-basic-width * 1.5);
+      }
+      &[data-key="Enter"].bottom {
+        width: calc($key-basic-width * 1.25);
+      }
+      &[data-key="Space"] {
+        width: calc($key-basic-width * 6);
+        margin: 0 auto;
+      }
+    }
+  }
+}
+
